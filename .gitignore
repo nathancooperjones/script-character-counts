@@ -1,0 +1,13 @@
+*.ipynb_checkpoints*
+
+# why do Macs do this
+.DS_Store
+
+# why do Macs do this
+.DS_Store
+
+# Ignore all data in `data` directory
+data/*
+
+# Ignore pycache
+__pycache__/
