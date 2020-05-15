@@ -5,7 +5,11 @@ RUN apt-get update && apt-get install -y \
   vim \
   libpq-dev \
   gcc \
-  locales
+  locales \
+  build-essential \
+  libpoppler-cpp-dev \
+  pkg-config \
+  python-dev
 
 # Enables us to use tmux. the language encoding in this container is not quite right.
 RUN echo "LC_ALL=en_US.UTF-8" >> /etc/environment
@@ -17,7 +21,7 @@ USER root
 WORKDIR /script_character_counts/
 
 # copy requirement files over
-COPY setup.py README.md requirements.txt .
+COPY setup.py README.md requirements.txt ./
 COPY script_character_counts/_version.py ./script_character_counts/
 
 # install libraries
