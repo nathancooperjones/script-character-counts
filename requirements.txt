@@ -1,3 +1,5 @@
+nltk
 pdftotext
+tqdm
 
 -e .

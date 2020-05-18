@@ -18,11 +18,11 @@ RUN echo "LANG=en_US.UTF-8" > /etc/locale.conf
 RUN locale-gen en_US.UTF-8
 
 USER root
-WORKDIR /script_character_counts/
+WORKDIR /script_scraper/
 
 # copy requirement files over
 COPY setup.py README.md requirements.txt ./
-COPY script_character_counts/_version.py ./script_character_counts/
+COPY script_scraper/_version.py ./script_scraper/
 
 # install libraries
 RUN pip install -U pip
