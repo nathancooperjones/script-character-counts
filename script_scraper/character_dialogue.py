@@ -26,20 +26,20 @@ def open_pdf(path):
 
 
 def get_character_dialogue_for_script(pdf,
-                                      non_dialogue_sentence=None,
-                                      remove_first_line=True):
+                                      remove_first_line=False,
+                                      debug=False):
     """
     Return all character's dialogue for a film script.
 
     Parameters
     ---------------
     pdf: pdftotext.PDF
-    non_dialogue_sentence: str
-        A sentence of the script that is not dialogue. This is used for calculating the number of
-        spaces that start an average sentence in the script (default None)
     remove_first_line: bool
         Remove the first line of every page, useful for when scripts have a set header
-        (default True)
+        (default False)
+    debug: bool
+        Print each page of the script as well as character dialogue collected for that page
+        (default False)
 
     Returns
     ---------------
@@ -50,9 +50,7 @@ def get_character_dialogue_for_script(pdf,
     """
     words_spoken = defaultdict(list)
 
-    number_of_spaces_for_script = _get_spaces_before_line(non_dialogue_sentence)
-
-    for page_number in tqdm(range(len(pdf))):
+    for page_number in tqdm(range(len(pdf))) if debug is False else range(len(pdf)):
         page = pdf[page_number]
 
         page_lines = page.split('\n')
@@ -62,80 +60,62 @@ def get_character_dialogue_for_script(pdf,
         words_spoken = _get_character_dialogue_for_page_lines(
             page_lines=page_lines,
             words_spoken=words_spoken,
-            number_of_spaces_for_script=number_of_spaces_for_script,
         )
+
+        if debug:
+            words_spoken_for_page = _get_character_dialogue_for_page_lines(
+                page_lines=page_lines,
+                words_spoken=defaultdict(list),
+            )
+
+            print('PAGE TEXT:\n{}'.format(page))
+            print('DICTIONARY COLLECTED:\n{}'.format(dict(words_spoken_for_page)))
+            print('\n\n---------\n\n')
 
     return dict(words_spoken)
 
 
 def _get_character_dialogue_for_page_lines(page_lines,
-                                           words_spoken,
-                                           number_of_spaces_for_script):
+                                           words_spoken):
     # ASSUMPTION: Dialogue never continues to a new page without character name again on that page.
+    # ASSUMPTION: Character names always have at least one space before they speak.
+    # ASSUMPTION: All character names and all dialogue have the same number of spaces before each
+    #             line.
+    # ASSUMPTION: Character names never have "EXT.", "INT.", "TO:", or "SFX:" in the name.
+    # ASSUMPTION: Valid character names are in all-caps.
+    # ASSUMPTION: Any dialogue occurring within parentheses should not be counted.
     currently_speaking = None
-
-    # First thing we need to do is check if there is any non-dialogue / character lines.
-    all_dialogue = None
-    open_bracket = False
-
-    for idx in range(len(page_lines)):
-        line = page_lines[idx]
-
-        should_we_continue, currently_speaking = _initial_line_checks(line, currently_speaking)
-        if should_we_continue:
-            continue
-
-        if re.match(r'\S', line):
-            continue
-
-        potential_name = _prep_potential_name(line)
-        if potential_name.isupper() and _check_if_potential_name(potential_name):
-            while all_dialogue is None and idx < len(page_lines) - 1:
-                next_line = page_lines[idx + 1]
-                # assume this is dialogue
-                next_line, open_bracket = _handle_parentheses(next_line, open_bracket)
-
-                if all_dialogue is None and len(next_line) > 0 and open_bracket is False:
-                    all_dialogue = bool(re.match(r'\S', next_line))
-                    break
-
-                idx += 1
-        else:
-            # assume this is dialogue
-            line, open_bracket = _handle_parentheses(line, open_bracket)
-
-            if (
-                all_dialogue is None
-                and re.match(r'\s', line)
-                and len(line) > 0
-                and open_bracket is False
-            ):
-                all_dialogue = False
-
-    # Main character counting loop.
     open_bracket = False
     number_of_spaces_for_dialogue = None
+    number_of_spaces_for_character = None
     for idx in range(len(page_lines)):
         line = page_lines[idx]
-
-        # if all_dialogue is False:
-        #     line = line[number_of_spaces_for_script:]
 
         should_we_continue, currently_speaking = _initial_line_checks(line, currently_speaking)
         if should_we_continue:
             continue
 
         potential_name = _prep_potential_name(line)
-        if potential_name.isupper():
+        spaces_before_line = _get_spaces_before_line(line)
+        if (
+            potential_name.isupper()
+            and spaces_before_line != 0
+            and (number_of_spaces_for_character is None
+                 or spaces_before_line == number_of_spaces_for_character
+                 )
+        ):
             if _check_if_potential_name(potential_name):
+                if (
+                    number_of_spaces_for_character is None
+                    and not line.isspace()
+                ):
+                    number_of_spaces_for_character = spaces_before_line
                 currently_speaking = potential_name
             else:
                 currently_speaking = None
         else:
             # assume this is dialogue
             line, open_bracket = _handle_parentheses(line, open_bracket)
-
-            spaces_before_line = _get_spaces_before_line(line)
 
             if (
                 currently_speaking is not None

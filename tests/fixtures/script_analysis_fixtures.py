@@ -9,7 +9,7 @@ def script_with_description():
                I am saying something.
                I really am.
      Hobbs studies the location.
-                          HOBBS
+                         HOBBS
                So am I.
                    (beat)
                Let's go.
@@ -136,7 +136,7 @@ It's okay.
 def script_with_cues():
     return(
         '''
-                          DOM
+                         DOM
                No.   You don’t.
 
                                                         CUT TO:
@@ -163,5 +163,93 @@ def script_with_dialogue_but_no_character_name():
                So am I.
                    (beat)
                Let's go.
+        '''
+    )
+
+
+@pytest.fixture()
+def script_with_dialogue_and_parentheses():
+    return(
+        '''
+B16   EXT. COSTA RICA, DAY                                           B16
+      WE FLOAT PAST A BRAND NEW FERRARI towards --
+      TEJ, shirtless in the blistering afternoon sun, sporting
+      slick headphones blasting muffled beats, stands in front of a
+      street ATM kiosk. He busies himself, punching numbers on his
+      phone -- then takes out the money he’s withdrawn, pocketing
+      the wad of bills. It’s a Tej we’ve never seen before, laid
+      back, cash-filled pockets, a baller’s swagger as he heads
+      towards - his Ferrari.
+      A group of STREET KIDS surround his car admiring it.
+      Two buddies come out of a store, SANTIAGO and BENITO, see Tej
+      and his new wheels, shaking their heads --
+                         SANTIAGO
+                    (to Tej, in Spanish)
+                Tío, mírate? Conduciendo un nuevo
+                Ferrari, con los bolsillos lleno
+                de gita.
+                (Man, look at you? Rolling up in a
+                brand new Ferrari, pockets full of
+                cash --)
+                I agree!
+        '''
+    )
+
+
+@pytest.fixture()
+def script_with_dialogue_all_caps_at_end():
+    return(
+        '''
+                     JACK
+          ‘Cause the thought alone is killing
+          me right nowwwwww...
+
+Jack then turns to the rest of the band, gives them a few
+words OFF-MIC, making sure they’re all on the same page. He’s
+not just the singer, but the leader. Then-
+
+GUITAR AND BASS BURST IN right with the chorus and the place
+EXPLODES WITH PURE ROCK ENERGY-
+
+                     JACK
+          HEYYYYYY YAAAAAAA!
+          Thanks for coming out!
+        '''
+    )
+
+
+@pytest.fixture()
+def script_with_dialogue_all_caps_at_beginning():
+    return(
+        '''
+
+                                                          5.
+
+
+IN A DINER, same night, they eat french fries, and HIGH-FIVE-
+
+THE BEDROOM, they have sex, reaching climax-
+
+
+INT. COLLEGE IRISH PUB - NEW NIGHT
+
+THE SONG CLIMAXES- A NEW NIGHT. NEW RAUCOUS CROWD.
+
+                     JACK
+          HEEEEEYYYYYY-- YA-
+
+At THAT the band HARD STOPS. A beat. Then THE CROWD GOES NUTS-
+
+                     JACK
+          Thank you! We are GIGANTIC!
+
+He steps off the stage, buzzing, as Lauren rushes over-
+
+                     JACK
+          Hey! There you are! Fucking crushed
+          it, right? I feel like-
+
+                     LAUREN
+          -I’m pregnant.
         '''
     )

@@ -39,13 +39,13 @@ docker run \
     -p 8888:8888 \
     script_scraper /bin/bash -c "pip install -r requirements-dev.txt && bash"
 
-# now in the container, run unit tests
+# now in the container, run unit tests if you'd like
 pytest -v .
 ```
 
 ### Known Bugs / Issues
 - [ ] Sentence count is not reliable yet for most character's dialogue.
-- [ ] `non_dialogue_sentence` _might_ not be required for `get_character_dialogue_for_page`...
-- [ ] Sometimes, different scene descriptions are counted as characters.
-- [ ] When a character speaks in all caps, it is assumed to be a character name.
+- [X] `non_dialogue_sentence` _might_ not be required for `get_character_dialogue_for_page`...
+- [X] Sometimes, different scene descriptions are counted as characters.
+- [X] When a character speaks in all caps, it is assumed to be a character name.
 - [ ] When dialogue is split so two characters talk at once, that is counted as a single character.
