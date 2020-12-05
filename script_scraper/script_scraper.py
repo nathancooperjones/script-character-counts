@@ -38,7 +38,7 @@ def script_scraper(pdf: Union[PDF, List[str]],
     """
     words_spoken = defaultdict(list)
 
-    for page_number in tqdm(range(1, len(pdf))) if debug is False else range(1, len(pdf)):
+    for page_number in tqdm(range(1, len(pdf))) if debug is True else range(1, len(pdf)):
         page = pdf[page_number]
 
         page_lines = page.split('\n')
@@ -93,8 +93,8 @@ def _get_character_dialogue_for_page_lines(page_lines, words_spoken, verbose):
         if (
             potential_name.strip().isupper()
             and potential_name[0] == ' '
-            and (len(potential_name) - len(potential_name.lstrip())) >= 9
-            and (len(potential_name) - len(potential_name.lstrip())) <= 31
+            and _get_spaces_before_line(potential_name) >= 9
+            and _get_spaces_before_line(potential_name) <= 31
         ):
             if (
                 _check_if_potential_name(potential_name)
@@ -128,7 +128,7 @@ def _get_character_dialogue_for_page_lines(page_lines, words_spoken, verbose):
                 line_1 = line_1.strip()
                 line_2 = line_2.strip()
             except ValueError:
-                number_of_leading_spaces = len(line) - len(line.lstrip())
+                number_of_leading_spaces = _get_spaces_before_line(line)
                 if number_of_spaces_for_dialogue is None:
                     if number_of_leading_spaces >= 5:
                         line_1 = ''
