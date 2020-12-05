@@ -1,20 +1,19 @@
 # Character Counts for Scripts
 
-Software written for the [Geena Davis Institute's](https://seejane.org) Spell Check for Bias tool.
+A lightweight Python parser written for the [Geena Davis Institute's](https://seejane.org) Spell Check for Bias tool.
 
 ![The first page of the Inception script](https://nathancooperjones.com/wp-content/uploads/2020/05/2-1024x888.jpg)
 
 ### Usage
 ```python
->>> from script_scraper import (get_character_dialogue_for_script,
-...                             open_pdf,
+>>> from script_scraper import (open_pdf,
+...                             script_scraper,
 ...                             word_and_sentence_count)
 >>> # open the PDF file
->>> pdf = open_pdf(path='/Users/nathancooperjones/Desktop/Inception.pdf')
+>>> pdf = open_pdf(path='~/Desktop/Inception.pdf')
 >>> # run the analysis
->>> words_spoken = get_character_dialogue_for_script(pdf=pdf,
-...                                                  non_dialogue_sentence='The waves TOSS a BEARDED MAN onto wet sand. He lies there.',
-...                                                  remove_first_line=False)
+>>> words_spoken = script_scraper(pdf=pdf,
+...                               remove_first_line=False)
 >>> # check words spoken for each character
 >>> words_spoken['ATTENDANT']
 ['He was delirious. But he asked for', 'you by name. And...', 'Show him.']
@@ -39,13 +38,13 @@ docker run \
     -p 8888:8888 \
     script_scraper /bin/bash -c "pip install -r requirements-dev.txt && bash"
 
-# now in the container, run unit tests if you'd like
-pytest -v .
+# now in the container, run unit tests, if you'd like
+pytest -v --cov-report term --cov=script_scraper
 ```
 
 ### Known Bugs / Issues
-- [ ] Sentence count is not reliable yet for most character's dialogue.
+- [ ] Sentence count is not the _most_ reliable yet for some character's dialogue.
 - [X] `non_dialogue_sentence` _might_ not be required for `get_character_dialogue_for_page`...
 - [X] Sometimes, different scene descriptions are counted as characters.
 - [X] When a character speaks in all caps, it is assumed to be a character name.
-- [ ] When dialogue is split so two characters talk at once, that is counted as a single character.
+- [X] When dialogue is split so two characters talk at once, that is counted as a single character.
