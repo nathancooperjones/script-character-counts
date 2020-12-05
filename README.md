@@ -8,9 +8,7 @@ A lightweight Python parser written for the [Geena Davis Institute's](https://se
 
 ### Usage
 ```python
->>> from script_scraper import (open_pdf,
-...                             script_scraper,
-...                             word_and_sentence_count)
+>>> from script_scraper import open_pdf, script_scraper, word_and_sentence_count
 >>> # open the PDF file
 >>> pdf = open_pdf(path='~/Desktop/Inception.pdf')
 >>> # run the analysis
@@ -44,7 +42,7 @@ docker run \
 pytest -v --cov-report term --cov=script_scraper
 ```
 
-### Known Bugs / Issues
+### Known Bugs / Issues Progress
 - [ ] Sentence count is not the _most_ reliable yet for some character's dialogue.
 - [X] `non_dialogue_sentence` _might_ not be required for `get_character_dialogue_for_page`...
 - [X] Sometimes, different scene descriptions are counted as characters.
