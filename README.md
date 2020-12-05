@@ -2,6 +2,8 @@
 
 A lightweight Python parser written for the [Geena Davis Institute's](https://seejane.org) Spell Check for Bias tool.
 
+[![codecov](https://codecov.io/gh/nathancooperjones/script-scraper/branch/master/graph/badge.svg?token=4YKUOBQM53)](https://codecov.io/gh/nathancooperjones/script-scraper)
+
 ![The first page of the Inception script](https://nathancooperjones.com/wp-content/uploads/2020/05/2-1024x888.jpg)
 
 ### Usage

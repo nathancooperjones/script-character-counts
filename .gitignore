@@ -14,3 +14,6 @@ __pycache__/
 
 # Ignore egg-info
 *egg-info*
+
+# Ignore coverage
+.coverage
