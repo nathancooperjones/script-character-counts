@@ -14,6 +14,7 @@ from script_scraper.utils import (_check_if_potential_name,
 
 def script_scraper(pdf: Union[PDF, List[str]],
                    remove_first_line: bool = False,
+                   start_page_number: int = 1,
                    verbose: bool = True,
                    debug: bool = False):
     """
@@ -24,6 +25,8 @@ def script_scraper(pdf: Union[PDF, List[str]],
     pdf: pdftotext.PDF
     remove_first_line: bool
         Remove the first line of every page, useful for when scripts have a set header
+    start_page_number: int
+        PDF page to begin analyzing, with a 0-based index (default 1)
     verbose:
         Print character name and dialogue output for each the page
     debug: bool
@@ -38,7 +41,11 @@ def script_scraper(pdf: Union[PDF, List[str]],
     """
     words_spoken = defaultdict(list)
 
-    for page_number in tqdm(range(1, len(pdf))) if debug is True else range(1, len(pdf)):
+    pdf_loop = range(start_page_number, len(pdf))
+    if debug is True:
+        pdf_loop = tqdm(pdf_loop)
+
+    for page_number in pdf_loop:
         page = pdf[page_number]
 
         page_lines = page.split('\n')
@@ -94,7 +101,7 @@ def _get_character_dialogue_for_page_lines(page_lines, words_spoken, verbose):
             potential_name.strip().isupper()
             and potential_name[0] == ' '
             and _get_spaces_before_line(potential_name) >= 9
-            and _get_spaces_before_line(potential_name) <= 31
+            and _get_spaces_before_line(potential_name) <= 35
         ):
             if (
                 _check_if_potential_name(potential_name)
@@ -119,14 +126,24 @@ def _get_character_dialogue_for_page_lines(page_lines, words_spoken, verbose):
 
         if currently_speaking is not None and '   ' in currently_speaking.strip():
             # we have a case where two characters are speaking
-            character_1, character_2 = re.split(r' {2,}', currently_speaking)
+            try:
+                character_1, character_2 = re.split(r' {2,}', currently_speaking)
+            except ValueError:
+                # TODO: fix this
+                currently_speaking = None
+
+                continue
+
             character_1 = character_1.strip()
             character_2 = character_2.strip()
 
             try:
+                # if ' ' != line[0]:
+                #     continue
                 line_1, line_2 = re.split(r' {2,}', line.strip())
                 line_1 = line_1.strip()
                 line_2 = line_2.strip()
+
             except ValueError:
                 number_of_leading_spaces = _get_spaces_before_line(line)
                 if number_of_spaces_for_dialogue is None:
@@ -143,6 +160,11 @@ def _get_character_dialogue_for_page_lines(page_lines, words_spoken, verbose):
                     line_1 = line.strip()
                     line_2 = ''
 
+                if len(line_1) > 35:
+                    currently_speaking = None
+
+                    continue
+
             if line_1:
                 words_spoken[character_1].append(line_1)
                 if verbose:
@@ -156,6 +178,9 @@ def _get_character_dialogue_for_page_lines(page_lines, words_spoken, verbose):
             if verbose:
                 print()
 
+            continue
+
+        if '           ' in line.strip():
             continue
 
         if (
@@ -175,6 +200,10 @@ def _get_character_dialogue_for_page_lines(page_lines, words_spoken, verbose):
         ):
             line = line.strip()
             if len(line) > 0:
+                # if ' / ' in currently_speaking:
+                #     for character in currently_speaking.split(' / '):
+                #         words_spoken[currently_speaking.strip()].append(line)
+                # else:
                 words_spoken[currently_speaking].append(line)
                 if verbose:
                     print('    ', line)

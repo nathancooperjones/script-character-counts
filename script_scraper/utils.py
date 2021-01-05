@@ -37,7 +37,10 @@ def word_and_sentence_count(single_characters_dialogue):
     sentence_count: int
 
     """
-    nltk.download('punkt')
+    try:
+        nltk.data.find('tokenizers/punkt')
+    except LookupError:
+        nltk.download('punkt')
 
     # TODO: sentence count needs to be better
     pattern = re.compile('[\W]', re.IGNORECASE | re.UNICODE)
@@ -65,7 +68,10 @@ def _check_if_potential_name(potential_name):
     return ('EXT.' not in potential_name
             and 'INT.' not in potential_name
             and 'TO:' not in potential_name
-            and 'SFX:' not in potential_name)
+            and 'SFX:' not in potential_name
+            and 'COLD OPEN' not in potential_name
+            # and 'TAG' not in potential_name
+            and not potential_name.strip().startswith('ACT '))
 
 
 def _initial_line_checks(line, currently_speaking):

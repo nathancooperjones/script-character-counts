@@ -1,4 +1,6 @@
 nltk
+openpyxl
+pandas
 pdftotext
 tqdm
 

@@ -335,6 +335,31 @@ def test_script_with_just_two_characters_talking_at_once_first_more_so(
     assert actual == expected
 
 
+def test_script_with_two_characters_talking_at_once_non_dialogue_line_following(
+    script_with_two_characters_talking_at_once_non_dialogue_line_following
+):
+    expected = {
+        'NATALIA': [
+            'Hey, kiddos.',
+        ],
+        'MAX': [
+            'Hi.',
+        ],
+        'LUNA': [
+            'Hey Mom, hey Abuela.'
+        ],
+    }
+
+    page_lines = script_with_two_characters_talking_at_once_non_dialogue_line_following.split('\n')
+    actual = _get_character_dialogue_for_page_lines(
+        page_lines=page_lines,
+        words_spoken=defaultdict(list),
+        verbose=True,
+    )
+
+    assert actual == expected
+
+
 def test_full_script_pipeline():
     expected = {
         'SUMMER': [

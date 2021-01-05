@@ -506,3 +506,21 @@ Kit reaches over, closes the lap top. Mike can’t believe it.
           Stop it. Please stop.
         '''
     )
+
+
+@pytest.fixture()
+def script_with_two_characters_talking_at_once_non_dialogue_line_following():
+    return(
+        '''
+                              ACT FOUR
+36  EXT. HOUSE FOR SALE – EARLY MORNING (D4)                    36
+    Luna is a character that is really happy. We are about to talk now.
+    Here we go.
+                         NATALIA
+               Hey, kiddos.
+                  MAX                             LUNA
+    Hi.                              Hey Mom, hey Abuela.
+    As the kids buckle their seat belts, Cora takes in Luna’s
+    outfit. What did you think of this test?
+        '''
+    )

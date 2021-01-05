@@ -44,6 +44,7 @@ pytest -v --cov-report term --cov=script_scraper
 
 ### Known Bugs / Issues Progress
 - [ ] Sentence count is not the _most_ reliable yet for some character's dialogue.
+- [ ] Dialogue with multiple characters separated with a `/` is incorrectly counted and reported as a single character.
 - [X] `non_dialogue_sentence` _might_ not be required for `get_character_dialogue_for_page`...
 - [X] Sometimes, different scene descriptions are counted as characters.
 - [X] When a character speaks in all caps, it is assumed to be a character name.
