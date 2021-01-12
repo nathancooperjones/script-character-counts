@@ -46,6 +46,7 @@ def script_scraper(pdf: Union[PDF, List[str]],
         pdf_loop = tqdm(pdf_loop)
 
     for page_number in pdf_loop:
+        print(page_number)
         page = pdf[page_number]
 
         page_lines = page.split('\n')

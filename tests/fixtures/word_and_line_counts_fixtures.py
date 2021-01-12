@@ -52,8 +52,8 @@ def counts_with_sentences_continuing():
             'Tío, mírate? Conduciendo un nuevo',
             'Ferrari, con los bolsillos lleno',
             'de gita.',
-            'I agree!',
-            "I am saying a little, little bit more here - it's true!"
+            'I agree!!',
+            "I am saying a little, little bit more here - it's true??!!?!"
         ]
     }
 

@@ -52,7 +52,7 @@ def test_counts_with_sentences_continuing(counts_with_sentences_continuing):
 
 
 def test_counts_with_fake_words(counts_with_fake_words):
-    expected = (19, 5)
+    expected = (19, 4)
 
     actual = word_and_sentence_count(
         single_characters_dialogue=counts_with_fake_words['JACK'],

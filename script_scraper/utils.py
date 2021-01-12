@@ -25,11 +25,11 @@ def open_pdf(path):
 
 def word_and_sentence_count(single_characters_dialogue):
     """
-    Open a PDF file for analysis.
+    Compute word and sentence count for a character's dialogue.
 
     Parameters
     ---------------
-    single_characters_dialogue: List of dialogue
+    single_characters_dialogue: list of str
 
     Returns
     ---------------
@@ -46,7 +46,17 @@ def word_and_sentence_count(single_characters_dialogue):
     pattern = re.compile('[\W]', re.IGNORECASE | re.UNICODE)
 
     single_characters_dialogue = ' '.join(single_characters_dialogue)
-    words = single_characters_dialogue.split()
+
+    # bug fix: duplicated punctuation is counted as separate lines - remove this
+    previous_single_characters_dialogue_length = -1
+    while previous_single_characters_dialogue_length != len(single_characters_dialogue):
+        previous_single_characters_dialogue_length = len(single_characters_dialogue)
+        single_characters_dialogue = single_characters_dialogue.replace('!!', '!')
+        single_characters_dialogue = single_characters_dialogue.replace('??', '?')
+        single_characters_dialogue = single_characters_dialogue.replace('!?', '!')
+        single_characters_dialogue = single_characters_dialogue.replace('?!', '?')
+
+    words = single_characters_dialogue.split(' ')
 
     word_list = list()
     for word in words:
