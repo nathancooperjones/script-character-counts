@@ -46,7 +46,9 @@ def script_scraper(pdf: Union[PDF, List[str]],
         pdf_loop = tqdm(pdf_loop)
 
     for page_number in pdf_loop:
-        print(page_number)
+        if verbose:
+            print(page_number)
+
         page = pdf[page_number]
 
         page_lines = page.split('\n')
@@ -201,12 +203,41 @@ def _get_character_dialogue_for_page_lines(page_lines, words_spoken, verbose):
         ):
             line = line.strip()
             if len(line) > 0:
-                # if ' / ' in currently_speaking:
-                #     for character in currently_speaking.split(' / '):
-                #         words_spoken[currently_speaking.strip()].append(line)
-                # else:
-                words_spoken[currently_speaking].append(line)
-                if verbose:
-                    print('    ', line)
+                if '/' in currently_speaking:
+                    # three scenarios here:
+                    # 1. separate dialogue is spoken by each character at the same time
+                    characters_split = currently_speaking.split('/')
+
+                    if currently_speaking.count('/') == line.count('/'):
+                        lines_split = line.split('/')
+                    else:
+                        lines_split = [line] * len(characters_split)
+
+                    for idx in range(len(characters_split)):
+                        character_stripped = characters_split[idx].strip()
+                        line_stripped = lines_split[idx].strip()
+                        (
+                            words_spoken[character_stripped]
+                            .append(line_stripped)
+                        )
+                        if verbose:
+                            print(f'     {line_stripped} [{character_stripped}]')
+                elif 'AND' in currently_speaking:
+                    characters_split = currently_speaking.split('AND')
+                    lines_split = [line] * len(characters_split)
+
+                    for idx in range(len(characters_split)):
+                        character_stripped = characters_split[idx].strip()
+                        line_stripped = lines_split[idx].strip()
+                        (
+                            words_spoken[character_stripped]
+                            .append(line_stripped)
+                        )
+                        if verbose:
+                            print(f'     {line_stripped} [{character_stripped}]')
+                else:
+                    words_spoken[currently_speaking].append(line)
+                    if verbose:
+                        print('    ', line)
 
     return words_spoken

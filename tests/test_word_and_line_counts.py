@@ -16,18 +16,33 @@ def test_counts_with_complete_sentences(counts_with_complete_sentences):
     assert actual_hobbs == expected_hobbs
 
 
-def test_counts_with_elipses(counts_with_elipses):
-    expected_riley = (4, 3)
+def test_counts_with_elipses_as_sentence_end(counts_with_elipses_as_sentence_end):
+    expected_dom = (4, 3)
     expected_hobbs = (7, 1)
 
-    actual_riley = word_and_sentence_count(
-        single_characters_dialogue=counts_with_elipses['DOM'],
+    actual_dom = word_and_sentence_count(
+        single_characters_dialogue=counts_with_elipses_as_sentence_end['DOM'],
     )
     actual_hobbs = word_and_sentence_count(
-        single_characters_dialogue=counts_with_elipses['HOBBS'],
+        single_characters_dialogue=counts_with_elipses_as_sentence_end['HOBBS'],
     )
 
-    assert actual_riley == expected_riley
+    assert actual_dom == expected_dom
+    assert actual_hobbs == expected_hobbs
+
+
+def test_counts_with_elipses_as_sentence_continuation(counts_with_elipses_as_sentence_continuation):
+    expected_dom = (4, 2)
+    expected_hobbs = (7, 1)
+
+    actual_dom = word_and_sentence_count(
+        single_characters_dialogue=counts_with_elipses_as_sentence_continuation['DOM'],
+    )
+    actual_hobbs = word_and_sentence_count(
+        single_characters_dialogue=counts_with_elipses_as_sentence_continuation['HOBBS'],
+    )
+
+    assert actual_dom == expected_dom
     assert actual_hobbs == expected_hobbs
 
 

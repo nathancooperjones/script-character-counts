@@ -71,7 +71,11 @@ def word_and_sentence_count(single_characters_dialogue):
 
 
 def _prep_potential_name(line):
-    return re.sub('\([^\)]+\)', '', line).replace('*', '')
+    return re.sub("[^a-zA-Z/ ]+", '', (
+        re.sub('\([^\)]+\)', '', line)
+        .replace('*', '')
+        .replace('V.O.', '')
+    ))
 
 
 def _check_if_potential_name(potential_name):

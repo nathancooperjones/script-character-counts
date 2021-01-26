@@ -3,6 +3,16 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project uses [Semantic Versioning](http://semver.org/).
 
+# [0.3.0] - 2021-1-26
+### Added
+ - support for multiple characters speaking at once, denoted with the `/` character
+ - support for multiple characters speaking at once, denoted with `AND`
+### Changed
+ - character name punctuation is removed entirely
+### Fixed
+ - no print output when `verbose=True`
+ - `V.O.` is now correctly filtered out of character's names
+
 # [0.2.2] - 2021-1-11
 ### Fixed
  - duplicated punctuation is not counted as separate lines

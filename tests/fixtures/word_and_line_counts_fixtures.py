@@ -21,12 +21,27 @@ def counts_with_complete_sentences():
 
 
 @pytest.fixture()
-def counts_with_elipses():
+def counts_with_elipses_as_sentence_end():
     return {
         'DOM': [
             'Hello.',
             'Well...',
             "It's okay.",
+        ],
+        'HOBBS': [
+            "How's it going being a total",
+            'criminal?',
+        ],
+    }
+
+
+@pytest.fixture()
+def counts_with_elipses_as_sentence_continuation():
+    return {
+        'DOM': [
+            'Hello.',
+            'Well...',
+            "it's okay.",
         ],
         'HOBBS': [
             "How's it going being a total",

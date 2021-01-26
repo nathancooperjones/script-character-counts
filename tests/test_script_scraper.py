@@ -189,7 +189,7 @@ def test_script_with_two_characters_talking_at_once_second_more_so(
     script_with_two_characters_talking_at_once_second_more_so
 ):
     expected = {
-        'DR. DAVIS': [
+        'DR DAVIS': [
             'The radiation won you some time.',
             'But at this point all we can really',
             'do is address your symptoms and...',
@@ -233,7 +233,7 @@ def test_script_with_two_characters_talking_at_once_first_more_so(
     script_with_two_characters_talking_at_once_first_more_so
 ):
     expected = {
-        'DR. DAVIS': [
+        'DR DAVIS': [
             'The radiation won you some time.',
             'But at this point all we can really',
             'do is address your symptoms and...',
@@ -351,6 +351,81 @@ def test_script_with_two_characters_talking_at_once_non_dialogue_line_following(
     }
 
     page_lines = script_with_two_characters_talking_at_once_non_dialogue_line_following.split('\n')
+    actual = _get_character_dialogue_for_page_lines(
+        page_lines=page_lines,
+        words_spoken=defaultdict(list),
+        verbose=True,
+    )
+
+    assert actual == expected
+
+
+def test_script_with_two_characters_talking_together_slash(
+    script_with_two_characters_talking_together_slash
+):
+    expected = {
+        'KIT': [
+            'Thank you.',
+            'I hate her so much.',
+            'I agree./Weird, who is the third person./Me.',
+        ],
+        'MIKE': [
+            'You too.',
+            'I hate her so much.',
+            'I agree./Weird, who is the third person./Me.',
+        ],
+    }
+
+    page_lines = script_with_two_characters_talking_together_slash.split('\n')
+    actual = _get_character_dialogue_for_page_lines(
+        page_lines=page_lines,
+        words_spoken=defaultdict(list),
+        verbose=True,
+    )
+
+    assert actual == expected
+
+
+def test_script_with_two_characters_talking_together_and(
+    script_with_two_characters_talking_together_and
+):
+    expected = {
+        'KIT': [
+            'Thank you./You too.',
+            'I hate her so much.',
+            'I agree./Weird, who is the third person./Me.',
+        ],
+        'MIKE': [
+            'Thank you./You too.',
+            'I hate her so much.',
+            'I agree./Weird, who is the third person./Me.',
+        ],
+    }
+
+    page_lines = script_with_two_characters_talking_together_and.split('\n')
+    actual = _get_character_dialogue_for_page_lines(
+        page_lines=page_lines,
+        words_spoken=defaultdict(list),
+        verbose=True,
+    )
+
+    assert actual == expected
+
+
+def test_script_with_character_name_punctuation(
+    script_with_character_name_punctuation
+):
+    expected = {
+        'DR MIKE': [
+            'I am a doctor!',
+            'Spell my name right!',
+        ],
+        'KIT': [
+            'I wish I was in this scene!',
+        ],
+    }
+
+    page_lines = script_with_character_name_punctuation.split('\n')
     actual = _get_character_dialogue_for_page_lines(
         page_lines=page_lines,
         words_spoken=defaultdict(list),

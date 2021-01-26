@@ -524,3 +524,76 @@ def script_with_two_characters_talking_at_once_non_dialogue_line_following():
     outfit. What did you think of this test?
         '''
     )
+
+
+@pytest.fixture()
+def script_with_two_characters_talking_together_slash():
+    return(
+        '''
+Mike starts to cry.
+
+                    KIT/MIKE
+          Thank you./You too.
+
+Mike ends the call. Kit remains silent. Mike puts his arms
+around him.
+
+                    MIKE/KIT
+          I hate her so much.
+
+                    MIKE/KIT
+          I agree./Weird, who is the third person./Me.
+        '''
+    )
+
+
+@pytest.fixture()
+def script_with_two_characters_talking_together_and():
+    return(
+        '''
+Mike starts to cry.
+
+                    KIT AND MIKE
+          Thank you./You too.
+
+Mike ends the call. Kit remains silent. Mike puts his arms
+around him.
+
+                    MIKE AND KIT
+          I hate her so much.
+
+                    MIKE AND KIT
+          I agree./Weird, who is the third person./Me.
+        '''
+    )
+
+
+@pytest.fixture()
+def script_with_character_name_punctuation():
+    return(
+        '''
+Mike starts to cry.
+
+                    DR. MIKE
+          I am a doctor!
+
+Mike ends the call. Kit remains silent. Mike puts his arms
+around him.
+
+                    KIT V.O.
+          I wish I was in this scene!
+
+                    DR MIKE.
+          Spell my name right!
+        '''
+    )
+
+
+# @pytest.fixture()
+# def script_with_just_two_character_groups_talking_at_once():
+#     return(
+#         '''
+#              KIT/JIM                      MIKE/MARIAH (CONT'D)     *
+# We are not./Yup, we are not.       We are saying the same thing!   *
+#         '''
+#     )
