@@ -1,7 +1,9 @@
+ipywidgets
 flake8
 flake8-docstrings
 flake8-import-order
-jupyterlab
+jupyterlab>=3.0.0
 pydocstyle<4.0.0
 pytest
 pytest-cov<3.0.0
+widgetsnbextension

@@ -3,7 +3,7 @@ import re
 from typing import List, Union
 
 from pdftotext import PDF
-from tqdm import tqdm
+from tqdm.auto import tqdm
 
 from script_scraper.utils import (_check_if_potential_name,
                                   _get_spaces_before_line,
@@ -169,14 +169,22 @@ def _get_character_dialogue_for_page_lines(page_lines, words_spoken, verbose):
                     continue
 
             if line_1:
-                words_spoken[character_1].append(line_1)
-                if verbose:
-                    print(f'     {line_1} [{character_1}]')
+                words_spoken = _add_line_to_words_spoken(
+                    words_spoken=words_spoken,
+                    currently_speaking=character_1,
+                    line=line_1,
+                    verbose=verbose,
+                    default_print_str=f'     {{}} [{character_1}]',
+                )
 
             if line_2:
-                words_spoken[character_2].append(line_2)
-                if verbose:
-                    print(f'     {line_2} [{character_2}]')
+                words_spoken = _add_line_to_words_spoken(
+                    words_spoken=words_spoken,
+                    currently_speaking=character_2,
+                    line=line_2,
+                    verbose=verbose,
+                    default_print_str=f'     {{}} [{character_2}]',
+                )
 
             if verbose:
                 print()
@@ -203,41 +211,55 @@ def _get_character_dialogue_for_page_lines(page_lines, words_spoken, verbose):
         ):
             line = line.strip()
             if len(line) > 0:
-                if '/' in currently_speaking:
-                    # three scenarios here:
-                    # 1. separate dialogue is spoken by each character at the same time
-                    characters_split = currently_speaking.split('/')
+                words_spoken = _add_line_to_words_spoken(words_spoken=words_spoken,
+                                                         currently_speaking=currently_speaking,
+                                                         line=line,
+                                                         verbose=verbose)
 
-                    if currently_speaking.count('/') == line.count('/'):
-                        lines_split = line.split('/')
-                    else:
-                        lines_split = [line] * len(characters_split)
+    return words_spoken
 
-                    for idx in range(len(characters_split)):
-                        character_stripped = characters_split[idx].strip()
-                        line_stripped = lines_split[idx].strip()
-                        (
-                            words_spoken[character_stripped]
-                            .append(line_stripped)
-                        )
-                        if verbose:
-                            print(f'     {line_stripped} [{character_stripped}]')
-                elif 'AND' in currently_speaking:
-                    characters_split = currently_speaking.split('AND')
-                    lines_split = [line] * len(characters_split)
 
-                    for idx in range(len(characters_split)):
-                        character_stripped = characters_split[idx].strip()
-                        line_stripped = lines_split[idx].strip()
-                        (
-                            words_spoken[character_stripped]
-                            .append(line_stripped)
-                        )
-                        if verbose:
-                            print(f'     {line_stripped} [{character_stripped}]')
-                else:
-                    words_spoken[currently_speaking].append(line)
-                    if verbose:
-                        print('    ', line)
+def _add_line_to_words_spoken(words_spoken,
+                              currently_speaking,
+                              line,
+                              verbose: bool = True,
+                              default_print_str: str = '     {}'):
+    """TODO."""
+    if '/' in currently_speaking:
+        # three scenarios here:
+        # 1. separate dialogue is spoken by each character at the same time
+        characters_split = currently_speaking.split('/')
+
+        if currently_speaking.count('/') == line.count('/'):
+            lines_split = line.split('/')
+        else:
+            lines_split = [line] * len(characters_split)
+
+        for idx in range(len(characters_split)):
+            character_stripped = characters_split[idx].strip()
+            line_stripped = lines_split[idx].strip()
+            (
+                words_spoken[character_stripped]
+                .append(line_stripped)
+            )
+            if verbose:
+                print(f'     {line_stripped} [{character_stripped}]')
+    elif 'AND' in currently_speaking:
+        characters_split = currently_speaking.split('AND')
+        lines_split = [line] * len(characters_split)
+
+        for idx in range(len(characters_split)):
+            character_stripped = characters_split[idx].strip()
+            line_stripped = lines_split[idx].strip()
+            (
+                words_spoken[character_stripped]
+                .append(line_stripped)
+            )
+            if verbose:
+                print(f'     {line_stripped} [{character_stripped}]')
+    else:
+        words_spoken[currently_speaking].append(line)
+        if verbose:
+            print(default_print_str.format(line))
 
     return words_spoken

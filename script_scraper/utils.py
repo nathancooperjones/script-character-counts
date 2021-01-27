@@ -42,7 +42,6 @@ def word_and_sentence_count(single_characters_dialogue):
     except LookupError:
         nltk.download('punkt')
 
-    # TODO: sentence count needs to be better
     pattern = re.compile('[\W]', re.IGNORECASE | re.UNICODE)
 
     single_characters_dialogue = ' '.join(single_characters_dialogue)

@@ -21,8 +21,9 @@ def test_script_with_description(script_with_description):
             'I know, that was fast!',
         ],
     }
+
     actual = _get_character_dialogue_for_page_lines(
-        page_lines=script_with_description.split('\n'),
+        page_lines=script_with_description,
         words_spoken=defaultdict(list),
         verbose=True,
     )
@@ -32,8 +33,9 @@ def test_script_with_description(script_with_description):
 
 def test_script_with_no_dialogue(script_with_no_dialogue):
     expected = {}
+
     actual = _get_character_dialogue_for_page_lines(
-        page_lines=script_with_no_dialogue.split('\n'),
+        page_lines=script_with_no_dialogue,
         words_spoken=defaultdict(list),
         verbose=True,
     )
@@ -53,8 +55,9 @@ def test_script_with_all_dialogue(script_with_all_dialogue):
             'criminal?',
         ],
     }
+
     actual = _get_character_dialogue_for_page_lines(
-        page_lines=script_with_all_dialogue.split('\n'),
+        page_lines=script_with_all_dialogue,
         words_spoken=defaultdict(list),
         verbose=True,
     )
@@ -69,8 +72,9 @@ def test_script_with_cues(script_with_cues):
             "It's me, Dom.",
         ]
     }
+
     actual = _get_character_dialogue_for_page_lines(
-        page_lines=script_with_cues.split('\n'),
+        page_lines=script_with_cues,
         words_spoken=defaultdict(list),
         verbose=True,
     )
@@ -85,8 +89,9 @@ def test_script_with_dialogue_but_no_character_name(script_with_dialogue_but_no_
             'I really am.',
         ]
     }
+
     actual = _get_character_dialogue_for_page_lines(
-        page_lines=script_with_dialogue_but_no_character_name.split('\n'),
+        page_lines=script_with_dialogue_but_no_character_name,
         words_spoken=defaultdict(list),
         verbose=True,
     )
@@ -103,8 +108,9 @@ def test_script_with_dialogue_and_parentheses(script_with_dialogue_and_parenthes
             'I agree!',
         ]
     }
+
     actual = _get_character_dialogue_for_page_lines(
-        page_lines=script_with_dialogue_and_parentheses.split('\n'),
+        page_lines=script_with_dialogue_and_parentheses,
         words_spoken=defaultdict(list),
         verbose=True,
     )
@@ -121,8 +127,9 @@ def test_script_with_dialogue_all_caps_at_end(script_with_dialogue_all_caps_at_e
             'Thanks for coming out!',
         ]
     }
+
     actual = _get_character_dialogue_for_page_lines(
-        page_lines=script_with_dialogue_all_caps_at_end.split('\n'),
+        page_lines=script_with_dialogue_all_caps_at_end,
         words_spoken=defaultdict(list),
         verbose=True,
     )
@@ -142,8 +149,9 @@ def test_script_with_dialogue_all_caps_at_beginning(script_with_dialogue_all_cap
             '-I’m pregnant.',
         ],
     }
+
     actual = _get_character_dialogue_for_page_lines(
-        page_lines=script_with_dialogue_all_caps_at_beginning.split('\n'),
+        page_lines=script_with_dialogue_all_caps_at_beginning,
         words_spoken=defaultdict(list),
         verbose=True,
     )
@@ -176,8 +184,27 @@ def test_script_with_asterisks_at_the_end(script_with_asterisks_at_the_end):
             'come into your place of worship.',
         ],
     }
+
     actual = _get_character_dialogue_for_page_lines(
-        page_lines=script_with_asterisks_at_the_end.split('\n'),
+        page_lines=script_with_asterisks_at_the_end,
+        words_spoken=defaultdict(list),
+        verbose=True,
+    )
+
+    assert actual == expected
+
+
+def test_script_with_character_name_having_more_than_one_word_and_more_than_one_space(
+    script_with_character_name_having_more_than_one_word_and_more_than_one_space
+):
+    expected = {
+        'KIT': [
+            'That was a weird edge case...',
+        ],
+    }
+
+    actual = _get_character_dialogue_for_page_lines(
+        page_lines=script_with_character_name_having_more_than_one_word_and_more_than_one_space,
         words_spoken=defaultdict(list),
         verbose=True,
     )
@@ -220,8 +247,9 @@ def test_script_with_two_characters_talking_at_once_second_more_so(
             'research going on right now.',
         ],
     }
+
     actual = _get_character_dialogue_for_page_lines(
-        page_lines=script_with_two_characters_talking_at_once_second_more_so.split('\n'),
+        page_lines=script_with_two_characters_talking_at_once_second_more_so,
         words_spoken=defaultdict(list),
         verbose=True,
     )
@@ -264,8 +292,9 @@ def test_script_with_two_characters_talking_at_once_first_more_so(
             'research going on right now.',
         ],
     }
+
     actual = _get_character_dialogue_for_page_lines(
-        page_lines=script_with_two_characters_talking_at_once_first_more_so.split('\n'),
+        page_lines=script_with_two_characters_talking_at_once_first_more_so,
         words_spoken=defaultdict(list),
         verbose=True,
     )
@@ -295,8 +324,9 @@ def test_script_with_just_two_characters_talking_at_once_second_more_so(
             'research going on right now.',
         ],
     }
+
     actual = _get_character_dialogue_for_page_lines(
-        page_lines=script_with_just_two_characters_talking_at_once_second_more_so.split('\n'),
+        page_lines=script_with_just_two_characters_talking_at_once_second_more_so,
         words_spoken=defaultdict(list),
         verbose=True,
     )
@@ -326,8 +356,9 @@ def test_script_with_just_two_characters_talking_at_once_first_more_so(
             'research going on right now.',
         ],
     }
+
     actual = _get_character_dialogue_for_page_lines(
-        page_lines=script_with_just_two_characters_talking_at_once_first_more_so.split('\n'),
+        page_lines=script_with_just_two_characters_talking_at_once_first_more_so,
         words_spoken=defaultdict(list),
         verbose=True,
     )
@@ -350,9 +381,8 @@ def test_script_with_two_characters_talking_at_once_non_dialogue_line_following(
         ],
     }
 
-    page_lines = script_with_two_characters_talking_at_once_non_dialogue_line_following.split('\n')
     actual = _get_character_dialogue_for_page_lines(
-        page_lines=page_lines,
+        page_lines=script_with_two_characters_talking_at_once_non_dialogue_line_following,
         words_spoken=defaultdict(list),
         verbose=True,
     )
@@ -376,9 +406,8 @@ def test_script_with_two_characters_talking_together_slash(
         ],
     }
 
-    page_lines = script_with_two_characters_talking_together_slash.split('\n')
     actual = _get_character_dialogue_for_page_lines(
-        page_lines=page_lines,
+        page_lines=script_with_two_characters_talking_together_slash,
         words_spoken=defaultdict(list),
         verbose=True,
     )
@@ -402,9 +431,8 @@ def test_script_with_two_characters_talking_together_and(
         ],
     }
 
-    page_lines = script_with_two_characters_talking_together_and.split('\n')
     actual = _get_character_dialogue_for_page_lines(
-        page_lines=page_lines,
+        page_lines=script_with_two_characters_talking_together_and,
         words_spoken=defaultdict(list),
         verbose=True,
     )
@@ -425,9 +453,62 @@ def test_script_with_character_name_punctuation(
         ],
     }
 
-    page_lines = script_with_character_name_punctuation.split('\n')
     actual = _get_character_dialogue_for_page_lines(
-        page_lines=page_lines,
+        page_lines=script_with_character_name_punctuation,
+        words_spoken=defaultdict(list),
+        verbose=True,
+    )
+
+    assert actual == expected
+
+
+def test_script_with_just_two_character_groups_talking_at_once(
+    script_with_just_two_character_groups_talking_at_once
+):
+    expected = {
+        'KIT': [
+            'We are not.',
+        ],
+        'JIM': [
+            'Yup, we are not.',
+        ],
+        'MIKE': [
+            'We are saying the same thing!',
+        ],
+        'MARIAH': [
+            'We are saying the same thing!',
+        ],
+    }
+
+    actual = _get_character_dialogue_for_page_lines(
+        page_lines=script_with_just_two_character_groups_talking_at_once,
+        words_spoken=defaultdict(list),
+        verbose=True,
+    )
+
+    assert actual == expected
+
+
+def test_script_with_just_two_character_groups_talking_at_once_both(
+    script_with_just_two_character_groups_talking_at_once_both
+):
+    expected = {
+        'KIT': [
+            'We are not.',
+        ],
+        'JIM': [
+            'Yup, we are not.',
+        ],
+        'MIKE': [
+            'We are saying the same thing!',
+        ],
+        'MARIAH': [
+            'Not!',
+        ],
+    }
+
+    actual = _get_character_dialogue_for_page_lines(
+        page_lines=script_with_just_two_character_groups_talking_at_once_both,
         words_spoken=defaultdict(list),
         verbose=True,
     )

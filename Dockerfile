@@ -1,4 +1,4 @@
-FROM python:3.8
+FROM python:3.9
 
 RUN apt-get update && apt-get install -y \
   tmux \
@@ -21,11 +21,12 @@ USER root
 WORKDIR /script_scraper/
 
 # copy requirement files over
-COPY setup.py README.md requirements.txt ./
+COPY setup.py README.md requirements.txt requirements-dev.txt ./
 COPY script_scraper/_version.py ./script_scraper/
 
 # install libraries
 RUN pip install -U pip
+RUN pip install -r requirements-dev.txt
 RUN pip install -r requirements.txt
 
 # copy the rest of the files to the container

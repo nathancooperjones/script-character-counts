@@ -3,6 +3,18 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project uses [Semantic Versioning](http://semver.org/).
 
+# [0.4.0] - 2021-1-26
+### Added
+ - support for dialogue with multiple characters speaking at once (side-by-side type) with sub-groups of characters speaking at once separated with a `/` being incorrectly counted and reported as more than just two characters
+ - `Jupyterlab` libraries for displaying progress bars
+### Changed
+ - test organization
+ - `Dockerfile` now installs `requirements-dev.txt`
+ - base image for `Dockerfile` has been upgraded to `python@3.9`
+ - `script_scraper` now uses `tqdm.auto` for progress bars rather than just `tqdm`
+### Fixed
+ - `README` typos
+
 # [0.3.0] - 2021-1-26
 ### Added
  - support for multiple characters speaking at once, denoted with the `/` character

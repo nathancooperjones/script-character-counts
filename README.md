@@ -36,7 +36,7 @@ docker run \
     --rm \
     -v "${PWD}:/script_scraper" \
     -p 8888:8888 \
-    script_scraper /bin/bash -c "pip install -r requirements-dev.txt && bash"
+    script_scraper /bin/bash
 
 # now in the container, run unit tests, if you'd like
 pytest -v --cov-report term --cov=script_scraper
@@ -44,8 +44,8 @@ pytest -v --cov-report term --cov=script_scraper
 
 ### Known Bugs / Issues Progress
 - [ ] Dialogue that might span multiple lines with multiple characters separated with a `/` is incorrectly counted and reported as a single character.
-- [ ] Character names with slight mispellings are counted as separate character.
-- [ ] Dialogue with multiple characters speaking at once (side-by-side type) with sub-groups of characters speaking at once separated with a `/` is incorrectly counted and reported as only two characters.
+- [ ] Character names with slight misspellings are counted as separate characters.
+- [X] Dialogue with multiple characters speaking at once (side-by-side type) with sub-groups of characters speaking at once separated with a `/` is incorrectly counted and reported as only two characters.
 - [X] Character's with `V.O.` in name are counted as separate characters.
 - [X] Dialogue with multiple characters separated with an `AND` or `&` is incorrectly counted and reported as a single character.
 - [X] Characters with punctuation are sometimes counted as more than one character.

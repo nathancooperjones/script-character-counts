@@ -44,7 +44,7 @@ def script_with_description():
 
      Hobbs uses his knife to scrape up a swath of the paint flecks
      and slides them into an evidence baggie.
-        '''
+        '''.split('\n')
     )
 
 
@@ -109,7 +109,7 @@ def script_with_no_dialogue():
      4. Shaw driving away.
 
      Location A
-        '''
+        '''.split('\n')
     )
 
 
@@ -128,7 +128,7 @@ criminal?
 Well...
     (beat)
 It's okay.
-        '''
+        '''.split('\n')
     )
 
 
@@ -148,7 +148,7 @@ def script_with_cues():
 
                          DOM
                It's me, Dom.
-        '''
+        '''.split('\n')
     )
 
 
@@ -163,7 +163,7 @@ def script_with_dialogue_but_no_character_name():
                So am I.
                    (beat)
                Let's go.
-        '''
+        '''.split('\n')
     )
 
 
@@ -192,7 +192,7 @@ B16   EXT. COSTA RICA, DAY                                           B16
                 brand new Ferrari, pockets full of
                 cash --)
                 I agree!
-        '''
+        '''.split('\n')
     )
 
 
@@ -214,7 +214,7 @@ EXPLODES WITH PURE ROCK ENERGY-
                      JACK
           HEYYYYYY YAAAAAAA!
           Thanks for coming out!
-        '''
+        '''.split('\n')
     )
 
 
@@ -251,7 +251,7 @@ He steps off the stage, buzzing, as Lauren rushes over-
 
                      LAUREN
           -I’m pregnant.
-        '''
+        '''.split('\n')
     )
 
 
@@ -310,7 +310,25 @@ astonishment.
                     TASHKAR
           For reasons of faith I will not
           come into your place of worship.
+        '''.split('\n')
+    )
+
+
+@pytest.fixture()
+def script_with_character_name_having_more_than_one_word_and_more_than_one_space():
+    return(
         '''
+                                                         86.
+
+
+                    SUMMERTIME    FALLTIME    WINTERTIME    SPRING
+          These are the seasons that make a person, a person.
+
+Mike starts to cry.
+
+                    KIT
+          That was a weird edge case...
+        '''.split('\n')
     )
 
 
@@ -374,7 +392,7 @@ Kit reaches over, closes the lap top. Mike can’t believe it.
 
                     KIT
           Stop it. Please stop.
-        '''
+        '''.split('\n')
     )
 
 
@@ -437,7 +455,7 @@ Kit reaches over, closes the lap top. Mike can’t believe it.
 
                     KIT
           Stop it. Please stop.
-        '''
+        '''.split('\n')
     )
 
 
@@ -471,7 +489,7 @@ Kit reaches over, closes the lap top. Mike can’t believe it.
 
                     KIT
           Stop it. Please stop.
-        '''
+        '''.split('\n')
     )
 
 
@@ -504,7 +522,7 @@ Kit reaches over, closes the lap top. Mike can’t believe it.
 
                     KIT
           Stop it. Please stop.
-        '''
+        '''.split('\n')
     )
 
 
@@ -522,7 +540,7 @@ def script_with_two_characters_talking_at_once_non_dialogue_line_following():
     Hi.                              Hey Mom, hey Abuela.
     As the kids buckle their seat belts, Cora takes in Luna’s
     outfit. What did you think of this test?
-        '''
+        '''.split('\n')
     )
 
 
@@ -543,7 +561,7 @@ around him.
 
                     MIKE/KIT
           I agree./Weird, who is the third person./Me.
-        '''
+        '''.split('\n')
     )
 
 
@@ -564,7 +582,7 @@ around him.
 
                     MIKE AND KIT
           I agree./Weird, who is the third person./Me.
-        '''
+        '''.split('\n')
     )
 
 
@@ -585,15 +603,33 @@ around him.
 
                     DR MIKE.
           Spell my name right!
-        '''
+        '''.split('\n')
     )
 
 
-# @pytest.fixture()
-# def script_with_just_two_character_groups_talking_at_once():
-#     return(
-#         '''
-#              KIT/JIM                      MIKE/MARIAH (CONT'D)     *
-# We are not./Yup, we are not.       We are saying the same thing!   *
-#         '''
-#     )
+@pytest.fixture(params=['right_only', 'left_only'])
+def script_with_just_two_character_groups_talking_at_once(request):
+    if request.param == 'right_only':
+        return(
+            '''
+                 MIKE/MARIAH                  KIT/JIM (CONT'D)     *
+    We are saying the same thing!       We are not./Yup, we are not.   *
+            '''.split('\n')
+        )
+    elif request.param == 'left_only':
+        return(
+            '''
+                 KIT/JIM                      MIKE/MARIAH (CONT'D)     *
+    We are not./Yup, we are not.       We are saying the same thing!   *
+            '''.split('\n')
+        )
+
+
+@pytest.fixture()
+def script_with_just_two_character_groups_talking_at_once_both(request):
+    return(
+        '''
+             KIT/JIM                      MIKE/MARIAH (CONT'D)          *
+We are not./Yup, we are not.       We are saying the same thing!/Not!   *
+        '''.split('\n')
+    )
