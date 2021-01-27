@@ -13,5 +13,10 @@ setup(
     long_description=readme,
     packages=find_packages(exclude=('tests', 'docs')),
     install_requires=[
+        'nltk',
+        'openpyxl',
+        'pandas',
+        'pdftotext',
+        'tqdm',
     ]
 )

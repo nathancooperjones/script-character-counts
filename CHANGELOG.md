@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project uses [Semantic Versioning](http://semver.org/).
 
+# [0.4.1] - 2021-1-27
+### Added
+ - library dependency management with `pip-tools`
+### Changed
+ - updated `README.md` known issues and bugs section
+
 # [0.4.0] - 2021-1-26
 ### Added
  - support for dialogue with multiple characters speaking at once (side-by-side type) with sub-groups of characters speaking at once separated with a `/` being incorrectly counted and reported as more than just two characters
@@ -27,7 +33,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 # [0.2.2] - 2021-1-11
 ### Fixed
- - duplicated punctuation is not counted as separate lines
+ - duplicated punctuation is not counted as separate lines in `word_and_sentence_count`
 
 # [0.2.1] - 2020-12-4
 ### Added
@@ -41,7 +47,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ### Added
  - support for two characters speaking at once
  - more rigorous testing
- - Codecov badge to `README`
+ - `Codecov` badge to `README`
 ### Changed
  - removed complexity of scanning each page twice to detect `all_dialogue`
  - reorganized utility functions into `utils.py`
@@ -70,7 +76,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 # [0.0.1] - 2020-5-15
 ### Added
- - Dockerfile setup
+ - `Dockerfile` setup
 
 # [0.0.0] - 2020-5-15
 ### Added
