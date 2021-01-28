@@ -8,4 +8,5 @@ pip-tools
 pydocstyle<4.0.0
 pytest
 pytest-cov<3.0.0
+traitlets<5.0.0  # last version to support Python 3.6
 widgetsnbextension

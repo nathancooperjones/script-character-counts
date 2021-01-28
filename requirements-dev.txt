@@ -35,7 +35,9 @@ click==7.1.2
 coverage==5.4
     # via pytest-cov
 decorator==4.4.2
-    # via ipython
+    # via
+    #   ipython
+    #   traitlets
 defusedxml==0.6.0
     # via nbconvert
 entrypoints==0.3
@@ -220,6 +222,7 @@ six==1.15.0
     #   jsonschema
     #   pydocstyle
     #   python-dateutil
+    #   traitlets
 sniffio==1.2.0
     # via anyio
 snowballstemmer==2.1.0
@@ -240,8 +243,9 @@ tornado==6.1
     #   jupyterlab
     #   notebook
     #   terminado
-traitlets==5.0.5
+traitlets==4.3.3
     # via
+    #   -r requirements-dev.in
     #   ipykernel
     #   ipython
     #   ipywidgets
