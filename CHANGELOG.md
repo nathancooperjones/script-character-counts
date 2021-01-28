@@ -3,6 +3,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project uses [Semantic Versioning](http://semver.org/).
 
+# [0.4.2] - 2021-1-27
+### Added
+ - `python@3.9` tests to GitHub workflows
+### Fixed
+ - added back support for `python@3.6`
+### Removed
+ - `pip-tools`, as requirements will not generalize to multiple versions of Python
+
 # [0.4.1] - 2021-1-27
 ### Added
  - library dependency management with `pip-tools`
