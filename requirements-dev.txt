@@ -64,8 +64,9 @@ ipython-genutils==0.2.0
     #   nbformat
     #   notebook
     #   traitlets
-ipython==7.19.0
+ipython==7.16.1
     # via
+    #   -r requirements-dev.in
     #   ipykernel
     #   ipywidgets
     #   jupyterlab

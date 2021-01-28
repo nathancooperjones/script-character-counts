@@ -1,3 +1,4 @@
+ipython<7.17  # last version to support Python 3.6
 ipywidgets
 flake8
 flake8-docstrings
