@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
  - `python@3.9` tests to GitHub workflows
 ### Fixed
  - added back support for `python@3.6`
+### Removed
+ - `pip-tools`, as requirements will not generalize to multiple versions of Python
 
 # [0.4.1] - 2021-1-27
 ### Added

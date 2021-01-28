@@ -21,13 +21,13 @@ USER root
 WORKDIR /script_scraper/
 
 # copy requirement files over
-COPY setup.py README.md requirements.txt requirements-dev.txt ./
+COPY setup.py README.md requirements-dev.txt ./
 COPY script_scraper/_version.py ./script_scraper/
 
 # install libraries
 RUN pip install -U pip
 RUN pip install -r requirements-dev.txt
-RUN pip install -r requirements.txt
+RUN pip install -e .
 
 # copy the rest of the files to the container
 COPY . .
