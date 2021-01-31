@@ -1,11 +1,15 @@
+import itertools
+from pathlib import Path
 import re
+from typing import Dict, List, Tuple, Union
 
+import Levenshtein
 import nltk
 from nltk.tokenize import sent_tokenize
 import pdftotext
 
 
-def open_pdf(path):
+def open_pdf(path: Union[str, Path]) -> pdftotext.PDF:
     """
     Open a PDF file for analysis.
 
@@ -23,7 +27,7 @@ def open_pdf(path):
         return pdftotext.PDF(f)
 
 
-def word_and_sentence_count(single_characters_dialogue):
+def word_and_sentence_count(single_characters_dialogue: List[str]) -> Tuple[int, int]:
     """
     Compute word and sentence count for a character's dialogue.
 
@@ -69,44 +73,66 @@ def word_and_sentence_count(single_characters_dialogue):
     return len(word_list), len(sentence_list)
 
 
-def _prep_potential_name(line):
-    return re.sub("[^a-zA-Z/ ]+", '', (
-        re.sub('\([^\)]+\)', '', line)
-        .replace('*', '')
-        .replace('V.O.', '')
-    ))
+def combine_similar_names(words_spoken_dict: Dict[str, List[str]],
+                          max_levenshtein_distance: int = 2,
+                          interactive: bool = False,
+                          verbose: bool = True) -> Dict[str, List[str]]:
+    """
+    Combine similar names in `words_spoken_dict` with low Levenshtein distances. This function
+    handles scripts with occassional typos in a character's name by combining the character with
+    the least lines in with the character with the most lines if the Levenshtein distance between
+    the two is low.
 
+    Parameters
+    ---------------
+    words_spoken_dict: dict
+        Dictionary with each key being a character's name and the value being a list of all lines of
+        dialogue, output of `script_scraper`
+    max_levenshtein_distance: int
+        Max edit distance allowed between two names to combine (default 2)
+    interactive: bool
+        Prompt for input before combining names (default False)
+    verbose: bool
+        Print after each name combination (default True)
 
-def _check_if_potential_name(potential_name):
-    return ('EXT.' not in potential_name
-            and 'INT.' not in potential_name
-            and 'TO:' not in potential_name
-            and 'SFX:' not in potential_name
-            and 'COLD OPEN' not in potential_name
-            # and 'TAG' not in potential_name
-            and not potential_name.strip().startswith('ACT '))
+    Returns
+    ---------------
+    words_spoken_combined_dict: dict
+        `words_spoken_dict` with similar names combined
 
+    """
+    words_spoken = words_spoken_dict.copy()
+    all_name_pairs = list(itertools.combinations(words_spoken.keys(), 2))
 
-def _initial_line_checks(line, currently_speaking):
-    we_should_continue = False
+    for (name_1, name_2) in all_name_pairs:
+        if (
+            Levenshtein.distance(name_1, name_2) < max_levenshtein_distance
+            and name_1 in words_spoken
+            and name_2 in words_spoken
+        ):
+            most_lines_name, least_lines_name = (
+                (name_1, name_2)
+                if len(words_spoken[name_1]) > len(words_spoken[name_2])
+                else (name_2, name_1)
+            )
 
-    if len(line.strip()) == 0:
-        currently_speaking = None
-        we_should_continue = True
+            if interactive:
+                prompt = f'Combine lines spoken from {least_lines_name} into {most_lines_name}?'
 
-    return we_should_continue, currently_speaking
+                while True:
+                    reply = str(input(prompt + ' (y/n): ')).lower().strip()
+                    if reply.lower().startswith('y') or reply.lower().startswith('n'):
+                        break
+                    else:
+                        print(f'{reply} reply not valid. Try again.')
 
+                if reply.lower().startswith('n'):
+                    print('Skipping...')
+                    continue
 
-def _handle_parentheses(line, open_bracket):
-    line = re.sub('\([^\)]+\)', '', line)
-    if '(' in line:
-        open_bracket = True
-    if ')' in line:
-        line = line.split(')', 1)[-1]
-        open_bracket = False
+            if interactive or verbose:
+                print(f'Combining lines spoken from {least_lines_name} into {most_lines_name}.')
 
-    return line, open_bracket
+            words_spoken[most_lines_name] += words_spoken.pop(least_lines_name)
 
-
-def _get_spaces_before_line(line):
-    return len(line) - len(line.lstrip(' '))
+    return words_spoken

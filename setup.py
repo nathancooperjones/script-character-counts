@@ -17,6 +17,7 @@ setup(
         'openpyxl',
         'pandas',
         'pdftotext',
+        'python-Levenshtein',
         'tqdm',
     ]
 )

@@ -1,22 +1,16 @@
 from collections import defaultdict
 import re
-from typing import List, Union
+from typing import Dict, List, Tuple, Union
 
 from pdftotext import PDF
 from tqdm.auto import tqdm
-
-from script_scraper.utils import (_check_if_potential_name,
-                                  _get_spaces_before_line,
-                                  _handle_parentheses,
-                                  _initial_line_checks,
-                                  _prep_potential_name)
 
 
 def script_scraper(pdf: Union[PDF, List[str]],
                    remove_first_line: bool = False,
                    start_page_number: int = 1,
                    verbose: bool = True,
-                   debug: bool = False):
+                   debug: bool = False) -> Dict[str, List[str]]:
     """
     Return all character's dialogue for a film script.
 
@@ -75,7 +69,9 @@ def script_scraper(pdf: Union[PDF, List[str]],
     return dict(words_spoken)
 
 
-def _get_character_dialogue_for_page_lines(page_lines, words_spoken, verbose):
+def _get_character_dialogue_for_page_lines(page_lines: List[str],
+                                           words_spoken: Dict[str, List[str]],
+                                           verbose: bool) -> Dict[str, List[str]]:
     # ASSUMPTION: Dialogue never continues to a new page without character name again on that page.
     # ASSUMPTION: Character names always have at least one space before they speak.
     # ASSUMPTION: All character names and all dialogue have the same number of spaces before each
@@ -219,12 +215,22 @@ def _get_character_dialogue_for_page_lines(page_lines, words_spoken, verbose):
     return words_spoken
 
 
-def _add_line_to_words_spoken(words_spoken,
-                              currently_speaking,
-                              line,
+def _add_line_to_words_spoken(words_spoken: Dict[str, List[str]],
+                              currently_speaking: str,
+                              line: str,
                               verbose: bool = True,
-                              default_print_str: str = '     {}'):
-    """TODO."""
+                              default_print_str: str = '     {}') -> Dict[str, List[str]]:
+    """
+    Given the character currently speaking, `currently_speaking`, and a line, `line`, determine
+    the right addition to the `words_spoken` dictionary.
+
+    There are three potential scenarios handled here:
+    * Multiple characters are speaking at once with potentially different dialogue with a `/`
+      separator.
+    * Multiple characters are speaking at once with the same line with a `AND` separator.
+    * A single character is speaking a single line.
+
+    """
     if '/' in currently_speaking:
         # three scenarios here:
         # 1. separate dialogue is spoken by each character at the same time
@@ -263,3 +269,46 @@ def _add_line_to_words_spoken(words_spoken,
             print(default_print_str.format(line))
 
     return words_spoken
+
+
+def _prep_potential_name(line: str) -> str:
+    return re.sub("[^a-zA-Z/ ]+", '', (
+        re.sub('\([^\)]+\)', '', line)
+        .replace('*', '')
+        .replace('V.O.', '')
+    ))
+
+
+def _check_if_potential_name(potential_name: str) -> bool:
+    return ('EXT.' not in potential_name
+            and 'INT.' not in potential_name
+            and 'TO:' not in potential_name
+            and 'SFX:' not in potential_name
+            and 'COLD OPEN' not in potential_name
+            # and 'TAG' not in potential_name
+            and not potential_name.strip().startswith('ACT '))
+
+
+def _initial_line_checks(line: str, currently_speaking: str) -> Tuple[bool, str]:
+    we_should_continue = False
+
+    if len(line.strip()) == 0:
+        currently_speaking = None
+        we_should_continue = True
+
+    return we_should_continue, currently_speaking
+
+
+def _handle_parentheses(line: str, open_bracket: bool) -> Tuple[str, bool]:
+    line = re.sub('\([^\)]+\)', '', line)
+    if '(' in line:
+        open_bracket = True
+    if ')' in line:
+        line = line.split(')', 1)[-1]
+        open_bracket = False
+
+    return line, open_bracket
+
+
+def _get_spaces_before_line(line: str) -> int:
+    return len(line) - len(line.lstrip(' '))

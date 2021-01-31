@@ -48,8 +48,8 @@ pytest -v --cov-report term --cov=script_scraper
 ### Known Bugs / Issues Progress
 - [ ] Dialogue that might span multiple lines with multiple characters separated with a `/` is incorrectly counted and reported as a single character.
   - Low priority, might not address in the foreseeable future.
-- [ ] Character names with slight misspellings are counted as separate characters.
-  - Medium priority, will address in `~0.5.0`.
+- [X] Character names with slight misspellings are counted as separate characters.
+  - Addressed in version `0.5.0`
 - [X] Dialogue with multiple characters speaking at once (side-by-side type) with sub-groups of characters speaking at once separated with a `/` is incorrectly counted and reported as only two characters.
   - Addressed in version `0.4.0`
 - [X] Character's with `V.O.` in name are counted as separate characters.

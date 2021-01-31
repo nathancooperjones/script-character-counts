@@ -3,6 +3,15 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project uses [Semantic Versioning](http://semver.org/).
 
+# [0.5.0] - 2021-1-31
+### Added
+ - `combine_similar_names` function to `utils.py` to account for potential typos in character names left in script
+ - type hints to _all_ functions and helper functions
+ - `python-Levenshtein` to requirements in `setup.py`
+### Changed
+ - `script_scraper` utilities moved from `utils.py` -> `script_scraper.py`
+ - `tests/test_word_and_sentence_count.py` -> `tests/test_utils.py`
+
 # [0.4.2] - 2021-1-27
 ### Added
  - `python@3.9` tests to GitHub workflows
