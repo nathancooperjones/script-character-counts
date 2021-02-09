@@ -249,7 +249,7 @@ He steps off the stage, buzzing, as Lauren rushes over-
           Hey! There you are! Fucking crushed
           it, right? I feel like-
 
-                     LAUREN
+                     ANDREA
           -I’m pregnant.
         '''.split('\n')
     )

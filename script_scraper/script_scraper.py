@@ -250,7 +250,7 @@ def _add_line_to_words_spoken(words_spoken: Dict[str, List[str]],
             )
             if verbose:
                 print(f'     {line_stripped} [{character_stripped}]')
-    elif 'AND' in currently_speaking:
+    elif ' AND ' in currently_speaking:
         characters_split = currently_speaking.split('AND')
         lines_split = [line] * len(characters_split)
 

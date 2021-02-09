@@ -145,7 +145,7 @@ def test_script_with_dialogue_all_caps_at_beginning(script_with_dialogue_all_cap
             'Hey! There you are! Fucking crushed',
             'it, right? I feel like-',
         ],
-        'LAUREN': [
+        'ANDREA': [
             '-I’m pregnant.',
         ],
     }
