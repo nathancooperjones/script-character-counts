@@ -2,7 +2,7 @@
 
 [![codecov](https://codecov.io/gh/nathancooperjones/script-scraper/branch/master/graph/badge.svg?token=4YKUOBQM53)](https://codecov.io/gh/nathancooperjones/script-scraper)
 
-A lightweight Python parser initially written for the [Geena Davis Institute's](https://seejane.org) Spell Check for Bias tool.
+A lightweight Python parser built in my spare time as a potential upgrade to the current tool used by the [Geena Davis Institute's](https://seejane.org) Spell Check for Bias tool.
 
 ![The first page of the Inception script](https://nathancooperjones.com/wp-content/uploads/2020/05/2-1024x888.jpg)
 
@@ -45,7 +45,22 @@ jupyter lab --ip 0.0.0.0 --no-browser --allow-root --NotebookApp.token='' --Note
 pytest -v --cov-report term --cov=script_scraper
 ```
 
+### FAQ
+_My PDF has a watermark across every page. What can I do?_
+By default, these PDFs will _not_ work in `script_scraper`. Here is how I have been able to run these documents through the library:
+
+1. Use a tool such as [this](https://smallpdf.com/pdf-to-word) to convert the PDF to a Word document.
+2. Open the document in Word, then save the document in XML format.
+3. Open the XML file in a text editor, find-and-replace the watermark text with an empty string.
+4. Open the XML file back up in Word.
+5. Save the Word document as a PDF for online use.
+
+Now, you can run `script_scraper` on the edited PDF, which no longer should have the watermark.
+
+If you have a better way to deal with this issue (that is hopefully more automated), feel free to make a PR!
+
 ### Known Bugs / Issues Progress
+- [ ] PDFs with watermarks will NOT work.
 - [ ] Dialogue that might span multiple lines with multiple characters separated with a `/` is incorrectly counted and reported as a single character.
   - Low priority, might not address in the foreseeable future.
 - [X] Character names with slight misspellings are counted as separate characters.
